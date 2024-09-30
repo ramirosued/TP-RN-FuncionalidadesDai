@@ -4,42 +4,48 @@ import { Accelerometer } from 'expo-sensors';
 import * as SMS from 'expo-sms';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';  // Asegúrate de importarlo
 
 export default function PantallaPrincipal() {
   const [subscription, setSubscription] = useState(null);
   const [numeroEmergencia, setNumeroEmergencia] = useState('');
 
-  useEffect(() => {
-    // Obtener el número de emergencia guardado
-    const obtenerNumeroEmergencia = async () => {
-      const numero = await AsyncStorage.getItem('numeroEmergencia');
-      console.log(`Número: ${numero}`);
-      setNumeroEmergencia(numero);
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("Pantalla enfocada");
 
-    obtenerNumeroEmergencia();
+      // Obtener el número de emergencia guardado
+      const obtenerNumeroEmergencia = async () => {
+        const numero = await AsyncStorage.getItem('numeroEmergencia');
+        console.log(`Número: ${numero}`);
+        setNumeroEmergencia(numero);
+      };
 
-    // Activar el acelerómetro
-    const startListening = () => {
-      const sub = Accelerometer.addListener(accelerometerData => {
-        const { x, y, z } = accelerometerData;
-        const shakeThreshold = 1.5; // Ajusta el umbral según tus necesidades
+      obtenerNumeroEmergencia();
 
-        if (Math.abs(x) > shakeThreshold || Math.abs(y) > shakeThreshold || Math.abs(z) > shakeThreshold) {
-          handleEmergency(); // Llamar a la función de emergencia
-        }
-      });
+      // Activar el acelerómetro
+      const startListening = () => {
+        const sub = Accelerometer.addListener(accelerometerData => {
+          const { x, y, z } = accelerometerData;
+          const shakeThreshold = 1.5; // Ajusta el umbral según tus necesidades
 
-      setSubscription(sub);
-    };
+          if (Math.abs(x) > shakeThreshold || Math.abs(y) > shakeThreshold || Math.abs(z) > shakeThreshold) {
+            handleEmergency(); // Llamar a la función de emergencia
+          }
+        });
 
-    startListening();
+        setSubscription(sub);
+      };
 
-    return () => {
-      subscription && subscription.remove();
-      setSubscription(null);
-    };
-  }, []);
+      startListening();
+
+      return () => {
+        console.log("Pantalla desenfocada");
+        subscription && subscription.remove();
+        setSubscription(null);
+      };
+    }, [subscription])
+  );
 
   const handleEmergency = async () => {
     if (!numeroEmergencia) {
