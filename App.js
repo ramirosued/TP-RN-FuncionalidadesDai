@@ -11,7 +11,8 @@ import PantallaClima from './components/PantallaClima';
 import PantallaContactosList from './components/PantallaContactosList';
 import PantallaEmergencia from './components/PantallaEmergencia';
 import EscanearQR from './components/PantallaEscanearQR';
-import PantallaLlamadoEmergencia from './components/PantallaLlamadoEmergencia';
+
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,6 +22,7 @@ function InicioStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Clima" component={PantallaClima} />
+      <Stack.Screen name="PantallaAboutQR" component={PantallaAboutQR} />
     </Stack.Navigator>
   );
 }
@@ -29,6 +31,7 @@ function PerfilStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="PerfilPrincipal" component={PantallaPrincipal} />
+      <Stack.Screen name="PantallaAboutQR" component={PantallaAboutQR} />
     </Stack.Navigator>
   );
 }
@@ -37,7 +40,7 @@ function ConfiguracionStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ContactoPrincipal" component={PantallaContactosList} />
-      
+      <Stack.Screen name="PantallaAboutQR" component={PantallaAboutQR} />
     </Stack.Navigator>
   );
 }
@@ -45,8 +48,7 @@ function EmergenciaStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Emergencia" component={PantallaEmergencia} />
-      <Stack.Screen name="PantallaLlamadoEmergencia" component={PantallaLlamadoEmergencia} />
-
+      <Stack.Screen name="PantallaAboutQR" component={PantallaAboutQR} />
     </Stack.Navigator>
   );
 }

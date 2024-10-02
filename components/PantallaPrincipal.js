@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import * as SMS from 'expo-sms';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native'; // Importa useFocusEffect
+import { useFocusEffect } from '@react-navigation/native'; 
 
-export default function PantallaPrincipal() {
+export default function PantallaPrincipal({navigation}) {
   const [subscription, setSubscription] = useState(null);
   const [numeroEmergencia, setNumeroEmergencia] = useState('');
 
-  // Utiliza useFocusEffect para recargar el número de emergencia al entrar en la pantalla
   useFocusEffect(
     React.useCallback(() => {
       const obtenerNumeroEmergencia = async () => {
         const numero = await AsyncStorage.getItem('numeroEmergencia');
         setNumeroEmergencia(numero);
-        console.log(numero); // Cambia aqui para ver el valor correcto
+        console.log(numero); 
       };
 
       obtenerNumeroEmergencia();
@@ -27,7 +26,7 @@ export default function PantallaPrincipal() {
           const shakeThreshold = 1.5; // Ajusta el umbral según tus necesidades
 
           if (Math.abs(x) > shakeThreshold || Math.abs(y) > shakeThreshold || Math.abs(z) > shakeThreshold) {
-            handleEmergency(); // Llamar a la función de emergencia
+            handleEmergency(); 
           }
         });
 
@@ -42,11 +41,11 @@ export default function PantallaPrincipal() {
           subscription.remove();
         }
       };
-    }, []) // Las dependencias vacías aseguran que esto se ejecute al entrar en la pantalla
+    }, []) 
   );
 
   const handleEmergency = async () => {
-    const numero = await AsyncStorage.getItem('numeroEmergencia'); // Obtiene el número de emergencia directamente aquí
+    const numero = await AsyncStorage.getItem('numeroEmergencia'); 
     if (!numero) {
       Alert.alert('Error', 'No se ha configurado un número de emergencia.');
       return;
@@ -67,10 +66,16 @@ export default function PantallaPrincipal() {
     }
   };
 
+  const acercaDe = async () => {
+    navigation.navigate('PantallaAboutQR'); 
+  
+};
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pantalla Principal</Text>
-    </View>
+      <Button title="About" onPress={acercaDe} />
+      </View>
   );
 }
 

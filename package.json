@@ -17,7 +17,7 @@
     "@react-navigation/native-stack": "^6.11.0",
     "axios": "^1.7.7",
     "expo": "^51.0.34",
-    "expo-barcode-scanner": "^13.0.1",
+    "expo-barcode-scanner": "~13.0.1",
     "expo-contacts": "~13.0.5",
     "expo-location": "~17.0.1",
     "expo-permissions": "^14.4.0",

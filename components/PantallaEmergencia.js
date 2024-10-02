@@ -32,8 +32,12 @@ export default function ConfigurarEmergencia({ navigation }) {
     if (validarNumero()) {
       await AsyncStorage.setItem('numeroEmergencia', numero);
       setNumeroGuardado(numero); // Actualizar el número mostrado
-      navigation.navigate('PantallaLlamadoEmergencia'); 
     }
+  };
+
+  const acercaDe = async () => {
+      navigation.navigate('PantallaAboutQR'); 
+    
   };
 
   return (
@@ -47,7 +51,8 @@ export default function ConfigurarEmergencia({ navigation }) {
           onChangeText={setNumero}
         />
         <Button title="Guardar número" onPress={guardarNumero} />
-        
+        <Button title="About" onPress={acercaDe} />
+
         {numeroGuardado && ( // Si ya hay un número guardado, mostrarlo
           <Text style={styles.numeroGuardadoText}>
             Número de emergencia actual: {numeroGuardado}
