@@ -4,26 +4,23 @@ import { Accelerometer } from 'expo-sensors';
 import * as SMS from 'expo-sms';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';  // Asegúrate de importarlo
+import { useFocusEffect } from '@react-navigation/native'; // Importa useFocusEffect
 
 export default function PantallaPrincipal() {
   const [subscription, setSubscription] = useState(null);
   const [numeroEmergencia, setNumeroEmergencia] = useState('');
 
+  // Utiliza useFocusEffect para recargar el número de emergencia al entrar en la pantalla
   useFocusEffect(
     React.useCallback(() => {
-      console.log("Pantalla enfocada");
-
-      // Obtener el número de emergencia guardado
       const obtenerNumeroEmergencia = async () => {
         const numero = await AsyncStorage.getItem('numeroEmergencia');
-        console.log(`Número: ${numero}`);
         setNumeroEmergencia(numero);
+        console.log(numero); // Cambia aqui para ver el valor correcto
       };
 
       obtenerNumeroEmergencia();
 
-      // Activar el acelerómetro
       const startListening = () => {
         const sub = Accelerometer.addListener(accelerometerData => {
           const { x, y, z } = accelerometerData;
@@ -39,35 +36,32 @@ export default function PantallaPrincipal() {
 
       startListening();
 
+      // Limpiar suscripción al desmontar el componente
       return () => {
-        console.log("Pantalla desenfocada");
-        subscription && subscription.remove();
-        setSubscription(null);
+        if (subscription) {
+          subscription.remove();
+        }
       };
-    }, [subscription])
+    }, []) // Las dependencias vacías aseguran que esto se ejecute al entrar en la pantalla
   );
 
   const handleEmergency = async () => {
-    if (!numeroEmergencia) {
+    const numero = await AsyncStorage.getItem('numeroEmergencia'); // Obtiene el número de emergencia directamente aquí
+    if (!numero) {
       Alert.alert('Error', 'No se ha configurado un número de emergencia.');
       return;
     }
 
-    // Mensaje de emergencia
     const message = '¡Necesito ayuda! Aquí está mi ubicación:';
-
-    // Obtener ubicación
     const location = await Location.getCurrentPositionAsync({});
     const lat = location.coords.latitude;
     const lon = location.coords.longitude;
 
     const fullMessage = `${message} https://www.google.com/maps?q=${lat},${lon}`;
 
-    // Enviar SMS
     if (await SMS.isAvailableAsync()) {
-      SMS.sendSMSAsync([numeroEmergencia], fullMessage)
-        .then(() => Alert.alert('Mensaje enviado', 'El mensaje de emergencia ha sido enviado.'))
-        .catch(() => Alert.alert('Error', 'No se pudo enviar el mensaje.'));
+      await SMS.sendSMSAsync([numero], fullMessage);
+      Alert.alert('Mensaje enviado', 'El mensaje de emergencia ha sido enviado.');
     } else {
       Alert.alert('Error', 'SMS no disponible en este dispositivo.');
     }
