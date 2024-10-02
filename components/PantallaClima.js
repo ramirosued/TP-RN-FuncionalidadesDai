@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Button, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
-const API_KEY = 'b662851334fa787bd73ef826930e20eb'; // Reemplaza con tu API key
+const API_KEY = 'b662851334fa787bd73ef826930e20eb'; 
 
-export default function ClimaYHora() {
+export default function ClimaYHora({navigation}) {
   const [horaActual, setHoraActual] = useState('');
   const [fechaActual, setFechaActual] = useState('');
   const [clima, setClima] = useState(null);
@@ -54,18 +54,43 @@ export default function ClimaYHora() {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+  const acercaDe = async () => {
+    navigation.navigate('PantallaAboutQR'); 
+  
+};
   return (
     <View style={styles.container}>
-      <Text style={styles.fecha}>Dia: {fechaActual}</Text>
-      <Text style={styles.hora}>Hora: {horaActual}</Text>
-      <Text style={styles.clima}>Cielo: {clima.weather[0].description}</Text>
-      <Text style={styles.temperatura}>Temperatura: {clima.main.temp} °C</Text>
-      <Text style={styles.ubicacion}>Ubicación: {clima.name}</Text>
+        <Text style={styles.fecha}>Dia: {fechaActual}</Text>
+        <Text style={styles.hora}>Hora: {horaActual}</Text>
+        <Text style={styles.clima}>Cielo: {clima.weather[0].description}</Text>
+        <Text style={styles.temperatura}>Temperatura: {clima.main.temp} °C</Text>
+        <Text style={styles.ubicacion}>Ubicación: {clima.name}</Text>
+      <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.aboutButton} onPress={acercaDe}>
+            <Text style={styles.aboutButtonText}>About</Text>
+          </TouchableOpacity>
+      </View>
+
     </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    margin: 10,
+    width: 160,
+    padding: 4,
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+    color: '#fff',
+  },
+  aboutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

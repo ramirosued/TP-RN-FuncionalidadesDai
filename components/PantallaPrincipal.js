@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, Button } from 'react-native';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import * as SMS from 'expo-sms';
 import * as Location from 'expo-location';
@@ -74,12 +74,31 @@ export default function PantallaPrincipal({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Pantalla Principal</Text>
-      <Button title="About" onPress={acercaDe} />
+      <View style={styles.buttonContainer}> 
+      <TouchableOpacity style={styles.aboutButton} onPress={acercaDe}>
+              <Text style={styles.aboutButtonText}>About</Text>
+      </TouchableOpacity>
+      </View>
       </View>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    margin: 10,
+    width: 160,
+    padding: 4,
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+    color: '#fff',
+    
+  },
+  aboutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native'; // Importa useFocusEffect
+import { View, Text, FlatList, StyleSheet, Alert, Button, TouchableOpacity  } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native'; 
 import * as Contacts from 'expo-contacts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function Contactos() {
+export default function Contactos({navigation}) {
   const [contactos, setContactos] = useState([]);
   const [numeroEmergencia, setNumeroEmergencia] = useState(null);
 
@@ -43,7 +43,6 @@ export default function Contactos() {
   const renderItem = ({ item }) => {
     const phoneNumber = item.phoneNumbers && item.phoneNumbers.length > 0 ? item.phoneNumbers[0].number : 'Sin número';
 
-    // Remover el prefijo +54911 para la comparación
     const cleanPhoneNumber1 = phoneNumber.replace('+54911', '').replace('+54 9 11', '') ;
     const cleanPhoneNumber2 = cleanPhoneNumber1.replace(/\D/g, '');
 
@@ -52,7 +51,7 @@ export default function Contactos() {
     : null;
     
     console.log(cleanPhoneNumber2)
-    // Verificar si los números son igualess
+
     const isEmergencyNumber = cleanEmergencyNumber && cleanPhoneNumber2.includes(cleanEmergencyNumber);
     console.log(isEmergencyNumber)
 
@@ -69,17 +68,47 @@ export default function Contactos() {
     );
   };
 
+  const acercaDe = async () => {
+    navigation.navigate('PantallaAboutQR'); 
+  };
+
   return (
     <FlatList
       data={contactos}
       keyExtractor={(item) => item.id}
-      ListHeaderComponent={<Text style={styles.welcome}>Tus contactos</Text>}
+      ListHeaderComponent={
+        <View>
+          
+          <Text style={styles.welcome}>Tus contactos</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.aboutButton} onPress={acercaDe}>
+              <Text style={styles.aboutButtonText}>About</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      }
       renderItem={renderItem}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignSelf: 'flex-end',
+    margin: 10,
+    width: 70,
+    padding: 4,
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+    color: '#fff',
+  },
+  aboutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+
+  },
   welcome: {
     fontSize: 24,
     fontWeight: 'bold',

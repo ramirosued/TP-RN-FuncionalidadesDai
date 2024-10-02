@@ -5,12 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 
 import PantallaPrincipal from './components/PantallaPrincipal';
-import PantallaInformacion from './components/PantallaInformacion';
 import PantallaAboutQR from './components/PantallaAboutQR';
 import PantallaClima from './components/PantallaClima';
 import PantallaContactosList from './components/PantallaContactosList';
 import PantallaEmergencia from './components/PantallaEmergencia';
-import EscanearQR from './components/PantallaEscanearQR';
 
 
 
@@ -82,10 +80,8 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Principal" component={PerfilStack} />
-
         <Tab.Screen name="Clima" component={InicioStack} />
         <Tab.Screen name="Emergencia" component={EmergenciaStack} />
-
         <Tab.Screen name="Contactos" component={ConfiguracionStack} />
 
       </Tab.Navigator>

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity } from 'react-native';
 
 export default function ConfigurarEmergencia({ navigation }) {
   const [numero, setNumero] = useState('');
@@ -51,19 +51,37 @@ export default function ConfigurarEmergencia({ navigation }) {
           onChangeText={setNumero}
         />
         <Button title="Guardar número" onPress={guardarNumero} />
-        <Button title="About" onPress={acercaDe} />
-
         {numeroGuardado && ( // Si ya hay un número guardado, mostrarlo
           <Text style={styles.numeroGuardadoText}>
             Número de emergencia actual: {numeroGuardado}
           </Text>
         )}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.aboutButton} onPress={acercaDe}>
+              <Text style={styles.aboutButtonText}>About</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    margin: 10,
+    width: 160,
+    padding: 4,
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+    color: '#fff',
+  },
+  aboutButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
