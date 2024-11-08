@@ -43,11 +43,11 @@ export default function ClimaYHora({navigation}) {
     const actualizarHoraYFecha = () => {
       const ahora = new Date();
       setHoraActual(ahora.toLocaleTimeString());
-      setFechaActual(ahora.toLocaleDateString()); // Establece la fecha actual
+      setFechaActual(ahora.toLocaleDateString()); 
     };
 
-    const intervalo = setInterval(actualizarHoraYFecha, 1000); // Actualiza cada segundo
-    return () => clearInterval(intervalo); // Limpia el intervalo al desmontar
+    const intervalo = setInterval(actualizarHoraYFecha, 1000); 
+    return () => clearInterval(intervalo); 
   }, []);
 
   if (cargando) {

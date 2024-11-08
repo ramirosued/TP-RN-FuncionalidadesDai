@@ -51,7 +51,6 @@ export default function About() {
           <BarCodeScanner
             onBarCodeScanned={({ type, data }) => {
               handleBarCodeScanned({ data });
-              // Aquí no cerramos el modal, solo guardamos el dato
             }}
             style={styles.scanner} 
           />

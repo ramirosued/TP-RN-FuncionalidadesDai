@@ -31,7 +31,7 @@ export default function ConfigurarEmergencia({ navigation }) {
   const guardarNumero = async () => {
     if (validarNumero()) {
       await AsyncStorage.setItem('numeroEmergencia', numero);
-      setNumeroGuardado(numero); // Actualizar el número mostrado
+      setNumeroGuardado(numero); 
     }
   };
 
@@ -51,7 +51,7 @@ export default function ConfigurarEmergencia({ navigation }) {
           onChangeText={setNumero}
         />
         <Button title="Guardar número" onPress={guardarNumero} />
-        {numeroGuardado && ( // Si ya hay un número guardado, mostrarlo
+        {numeroGuardado && ( 
           <Text style={styles.numeroGuardadoText}>
             Número de emergencia actual: {numeroGuardado}
           </Text>
